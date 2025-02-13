@@ -1,0 +1,187 @@
+openapi: 3.0.0
+info:
+  title: Apparel Store API
+  description: API for managing apparel inventory and orders
+  version: 1.0.0
+servers:
+  - url: http://localhost:9000
+    description: Local development server
+
+paths:
+  /vendor/update-stock:
+    post:
+      tags:
+        - Vendor
+      summary: Update stock for a single apparel
+      description: As a vendor, update the stock quantity and price for a single apparel item
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - apparelCode
+                - size
+                - quantity
+                - price
+              properties:
+                apparelCode:
+                  type: string
+                  example: "APP001"
+                size:
+                  type: string
+                  example: "M"
+                quantity:
+                  type: number
+                  example: 100
+                price:
+                  type: number
+                  example: 29.99
+      responses:
+        '200':
+          description: Stock updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Stock updated successfully"
+
+  /vendor/bulk-update-stock:
+    post:
+      tags:
+        - Vendor
+      summary: Bulk update stock for multiple apparels
+      description: As a vendor, update the stock quantity and price for multiple apparel items at once
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                required:
+                  - apparelCode
+                  - size
+                  - quantity
+                  - price
+                properties:
+                  apparelCode:
+                    type: string
+                    example: "APP001"
+                  size:
+                    type: string
+                    example: "M"
+                  quantity:
+                    type: number
+                    example: 100
+                  price:
+                    type: number
+                    example: 29.99
+      responses:
+        '200':
+          description: Bulk stock updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Bulk stock updated successfully"
+
+  /user/validate-order:
+    post:
+      tags:
+        - User
+      summary: Validate if an order can be fulfilled
+      description: Check if the requested quantities are available in stock
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                required:
+                  - apparelCode
+                  - size
+                  - quantity
+                properties:
+                  apparelCode:
+                    type: string
+                    example: "APP001"
+                  size:
+                    type: string
+                    example: "M"
+                  quantity:
+                    type: number
+                    example: 2
+      responses:
+        '200':
+          description: Order validation result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  canFulfill:
+                    type: boolean
+                    example: true
+
+  /user/minimum-amount:
+    post:
+      tags:
+        - User
+      summary: Check order fulfillment and calculate total cost
+      description: Validates if the order can be fulfilled and calculates the total cost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                required:
+                  - apparelCode
+                  - size
+                  - quantity
+                properties:
+                  apparelCode:
+                    type: string
+                    example: "APP001"
+                  size:
+                    type: string
+                    example: "M"
+                  quantity:
+                    type: number
+                    example: 2
+      responses:
+        '200':
+          description: Order validation and cost calculation result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  canFulfill:
+                    type: boolean
+                    example: true
+                  totalCost:
+                    type: number
+                    example: 59.98
+
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Error message"
