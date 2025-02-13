@@ -32,6 +32,11 @@ cd freshprint-backend
 npm install
 ```
 
+3. Start the server:
+```bash
+npm run dev
+```
+
 ## API Documentation
 
 ### Swagger Documentation

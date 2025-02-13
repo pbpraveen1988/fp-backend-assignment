@@ -82,7 +82,7 @@ app.post('/user/minimum-amount', (req: Request, res: Response) => {
             totalCost += itemData.price * quantity;
         } else {
             canFulfill = false;
-            break; // Stop checking if one item can't be fulfilled
+            break;  
         }
     }
 
